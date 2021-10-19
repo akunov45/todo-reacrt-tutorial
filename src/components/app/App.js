@@ -14,8 +14,10 @@ class App extends React.Component {
             {label: 'Have a lunch', important: false, id: 3, done: false}
         ],
         searchTodo: '',
-        status: 'Active'
+        status: 'All'
     }
+
+
     onChange = (text) => {
         this.setState({searchTodo: text})
     }
@@ -25,7 +27,9 @@ class App extends React.Component {
         return todo;
     }
     addTodo = (todoText) => {
+
         const oldId = this.state.todos.map((item) => item.id)
+
         let myNewId = oldId[oldId.length - 1] + 1;
         if (!myNewId) {
             myNewId = 0
@@ -33,39 +37,43 @@ class App extends React.Component {
         const newTodo = {label: todoText, important: false, id: myNewId, done: false}
         const addNewTodo = this.setState({todos: [...this.state.todos, newTodo]})
         return addNewTodo;
+
     }
-    setStatus =(text)=>{
+    setStatus = (text) => {
         this.setState({status: text})
     }
-    filterStatus = (text) => {
-        console.log(5+5)///?
+    filterStatus = () => {
         if ('All' === this.state.status) {
-            console.log(...this.state.todos,'all')
-            // return this.state.todos
+            return this.state.todos
         } else if ('Active' === this.state.status) {
-            let activeTodo = this.state.todos.filter((todo) => todo.important === false)
-           // return this.setState({todos: [activeTodo]})
-            console.log(...activeTodo,'active')
-        }else if('Done' ===this.state.status){
-            let doneTodo = this.state.todos.filter((todo) => todo.done === true)
-            // return this.setState({todos: [...doneTodo]})
-            console.log(...doneTodo,'done')
+            return this.state.todos.filter((todo) => !todo.done)
+        } else if ('Done' === this.state.status) {
+            return  this.state.todos.filter((todo) => todo.done)
         }
-        // const todo= this.setState({todos: [...activeTodo]})
     }
+
     onTodoDelete = (id) => {
         const oldTodo = this.state.todos.filter((todo) => todo.id !== id)
-        const newTodo = this.setState({todos: [...oldTodo]})
-        return newTodo;
+
+        return this.setState({todos: [...oldTodo]})
     }
+
     todoDone = (idEl) => {
         let oldId = this.state.todos.findIndex((todo) => todo.id === idEl)
+
+
         let oldTodo = this.state.todos[oldId]
         const newTodo = {...oldTodo, done: !oldTodo.done}
+
+
         let old = this.state.todos.slice(0, oldId)
+
         let next = this.state.todos.slice(oldId + 1)
+
         let todoNew = [...old, newTodo, ...next]
+
         return this.setState({todos: [...todoNew]});
+
 
     }
     onImportantChange = (id) => {
@@ -79,7 +87,9 @@ class App extends React.Component {
     }
 
     render() {
-        const newTodo = this.searchTodo(this.state.todos, this.state.searchTodo)
+        const filteredTodo = this.filterStatus()
+        const newTodo = this.searchTodo(filteredTodo, this.state.searchTodo)
+
         return (
             <div className="todo-app">
                 <TodoHeader/>

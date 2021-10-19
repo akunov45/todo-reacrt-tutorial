@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 
 const AddTodo = ({addTodo}) => {
+
     const [text, setText] = useState('')
     const handleSubmit = e => {
         e.preventDefault();
@@ -8,6 +9,7 @@ const AddTodo = ({addTodo}) => {
         addTodo(text)
         setText('');
     };
+
     return (
         <div>
             <form onSubmit={handleSubmit}>

@@ -15,6 +15,7 @@ const ItemStatusFilter = ({changeStatus,setStatus}) => {
                     className="btn btn-info"
                     onClick={(e) => {
                         changeStatus(e.target.innerText)
+                        setStatus(e.target.innerText)
                     }}
             >All
             </button>
